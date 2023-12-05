@@ -8,6 +8,7 @@ const Navbar = ({location}) => {
                 <Link onClick={() => window.scrollTo(0, 0)} to="/about" className= {`rounded-md py-1 px-4 ${location.pathname == '/about' && 'bg-slate-500'}`}>About</Link>
                 <Link onClick={() => window.scrollTo(0, 0)} to="/products" className= {`rounded-md py-1 px-4 ${location.pathname.includes('/products') && 'bg-slate-500'}`}>Products</Link>
                 <Link onClick={() => window.scrollTo(0, 0)} to="/cart" className= {`rounded-md py-1 px-4 ${location.pathname == '/cart' && 'bg-slate-500'}`}>Cart</Link>
+                <Link onClick={() => window.scrollTo(0, 0)} to="/createpost" className= {`rounded-md py-1 px-4 ${location.pathname == '/createpost' && 'bg-slate-500'}`}>Post</Link>
             </div>
     );
 };

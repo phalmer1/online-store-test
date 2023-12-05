@@ -4,36 +4,63 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Products from './components/pages/Products';
 import Cart from './components/pages/Cart';
-import { cards } from './data';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductItemDetails from './components/ProductItemDetails/ProductItemDetails';
 import Login from './components/pages/Login/Login';
-import Register from './components/Register/Register';
+import Register from './components/pages/Register/Register';
+import CreatePost from './components/pages/CreatePost/CreatePost';
+import { chunkMaker } from './data';
+import axios from 'axios';
 
 function App() {
-
+    const [products, setProducts] = useState([]);
     const [cartList, setCartList] = useState([]);
 
-    const chunkCards = [];
+    const [brand, setBrand] = useState('');
+    const [sortedCards, setSortedCards] = useState(products && products);
 
-    const chunk = 9;
+    useEffect(() => {
+        const url = 'https://dummyjson.com/products';
+        axios
+            .get(url)
+            .then((response) => {
+                const data = response.data;
+                console.log(data)
+                setProducts(data.products);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    },[]);
 
-    console.log(cartList);
+    useEffect(() => {
+        let filteredCards = products && products;
+        if (brand && brand !== 'all') {
+            filteredCards = products.filter((card) => card.brand === brand);
+        }
+        setSortedCards(filteredCards);
+    }, [brand, products]);
 
-    for (let i = 0; i < cards.length; i += chunk) {
-        chunkCards.push(cards.slice(i, i + chunk));
-    }
+    const chunkCards = sortedCards && chunkMaker(sortedCards, 9);
+
+    console.log();
 
     return (
         <>
             <Routes>
-                <Route index element={<Home cards={cards} />}></Route>
+                <Route index element={<Home cards={products} />}></Route>
                 <Route path="/about" element={<About />}></Route>
                 <Route path="/products">
                     {!chunkCards[1] ? (
                         <Route
                             index
-                            element={<Products cards={cards} />}
+                            element={
+                                <Products
+                                    cards={sortedCards}
+                                    setCompany={setBrand}
+                                    products={products}
+                                />
+                            }
                         ></Route>
                     ) : (
                         <Route path="/products">
@@ -45,8 +72,9 @@ function App() {
                                         element={
                                             <Products
                                                 cards={chunk}
-                                                arr={chunkCards}
+                                                chunkCards={chunkCards}
                                                 locateId={index}
+                                                setCompany={setBrand}
                                             />
                                         }
                                     />
@@ -57,8 +85,9 @@ function App() {
                                         element={
                                             <Products
                                                 cards={chunkCards[0]}
-                                                arr={chunkCards}
                                                 locateId={index}
+                                                chunkCards={chunkCards}
+                                                setCompany={setBrand}
                                             />
                                         }
                                     />
@@ -66,10 +95,10 @@ function App() {
                             )}
                         </Route>
                     )}
-                    {cards.map((card, index) => (
+                    {products.map((card, index) => (
                         <Route
                             key={'details' + index}
-                            path={`product/${card.id}`}
+                            path={`product/${index + 1}`}
                             element={
                                 <ProductItemDetails
                                     setCartList={setCartList}
@@ -85,6 +114,15 @@ function App() {
                     path="/cart"
                     element={
                         <Cart cartList={cartList} setCartList={setCartList} />
+                    }
+                ></Route>
+                <Route
+                    path="/createpost"
+                    element={
+                        <CreatePost
+                            cards={products}
+                            setProducts={setProducts}
+                        />
                     }
                 ></Route>
                 <Route path="/login" element={<Login />}></Route>

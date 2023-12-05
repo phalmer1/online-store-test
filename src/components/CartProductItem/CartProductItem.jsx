@@ -30,8 +30,8 @@ const CartProductItem = ({ item, setCartList }) => {
         <div className="flex h-40 shadow-2xl w-full rounded-lg bg-slate-400 p-2 justify-around">
             <div className="bg-slate-100 w-1/4 rounded-md">image</div>
             <div className="flex flex-col justify-around">
-                <div>{item.product}</div>
-                <div>{item.company}</div>
+                <div>{item.title}</div>
+                <div>{item.brand}</div>
                 <div>color</div>
             </div>
             <div className="flex flex-col justify-around">

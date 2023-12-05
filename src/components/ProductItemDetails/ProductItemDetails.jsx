@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../Layout/Layout';
 import { Link } from 'react-router-dom';
 
-const ProductItemDetails = ({ card, cartList , setCartList }) => {
+const ProductItemDetails = ({ card, setCartList }) => {
     const [count, setCount] = useState(1);
 
     const setCartItem = () => {
@@ -21,6 +21,8 @@ const ProductItemDetails = ({ card, cartList , setCartList }) => {
         });
     };
 
+    console.log(card)
+
     return (
         <Layout>
             <div>
@@ -35,8 +37,8 @@ const ProductItemDetails = ({ card, cartList , setCartList }) => {
             <div className=" mt-28 grid grid-cols-2 gap-4">
                 <div className="bg-slate-400 h-96">Photo</div>
                 <div className="grid grid-flow-row h-96 pl-6 gap-3">
-                    <span>{card.product}</span>
-                    <span>{card.company}</span>
+                    <span>{card.title}</span>
+                    <span>{card.brand}</span>
                     <span>${card.price}</span>
                     <span>{card.description}</span>
                     <select
