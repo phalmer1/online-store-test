@@ -11,9 +11,7 @@ const CartProductItem = ({ item, setCartList }) => {
     }, [item]);
 
     const removeItem = () => {
-        setCartList((prevList) =>
-            prevList.filter((listItem) => listItem.id !== item.id)
-        );
+        setCartList((prevList) => prevList.filter((listItem) => listItem.id !== item.id));
     };
 
     const handleChange = () => {
@@ -21,13 +19,13 @@ const CartProductItem = ({ item, setCartList }) => {
         const newCount = Number(selectElement.value);
         setCartList((prevList) =>
             prevList.map((listItem) =>
-                listItem.id === item.id ? { ...listItem, count: newCount } : listItem
-            )
+                listItem.id === item.id ? { ...listItem, count: newCount } : listItem,
+            ),
         );
     };
 
     return (
-        <div className="flex h-40 shadow-2xl w-full rounded-lg bg-slate-400 p-2 justify-around">
+        <div className="flex h-40 shadow-2xl w-full rounded-lg bg-slate-400 p-2 justify-between">
             <div className="bg-slate-100 w-1/4 rounded-md">image</div>
             <div className="flex flex-col justify-around">
                 <div>{item.title}</div>
@@ -41,21 +39,18 @@ const CartProductItem = ({ item, setCartList }) => {
                     onChange={handleChange}
                     name="count"
                     id={`countSelect${item.id}`}
-                    className="w-28 h-7 text-sm rounded-sm outline-none"
-                >
-                    {[
-                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                        17, 18, 19, 20,
-                    ].map((value) => (
-                        <option key={value} value={value}>
-                            {value}
-                        </option>
-                    ))}
+                    className="w-28 h-7 text-sm rounded-sm outline-none">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
+                        (value) => (
+                            <option key={value} value={value}>
+                                {value}
+                            </option>
+                        ),
+                    )}
                 </select>
                 <button
                     onClick={removeItem}
-                    className="text-start text-slate-600 hover:text-slate-500"
-                >
+                    className="text-start text-slate-600 hover:text-slate-500">
                     Remove
                 </button>
             </div>

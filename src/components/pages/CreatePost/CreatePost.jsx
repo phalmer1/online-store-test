@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Layout from '../../Layout/Layout';
 
-const CreatePost = ({cards,setProducts}) => {
+const CreatePost = ({ cards, setProducts }) => {
     const [newProduct, setPost] = useState({});
     const nameRef = useRef(null);
 
-    const nextId = cards.length
+    const nextId = cards.length;
     const handleInputs = (e) => {
         setPost((prev) => {
             return {
@@ -17,14 +17,13 @@ const CreatePost = ({cards,setProducts}) => {
     };
 
     const createProduct = (e) => {
-        e.preventDefault()
-        setProducts([...cards, newProduct])  ;
-    }
+        e.preventDefault();
+        setProducts([...cards, newProduct]);
+    };
 
-    
     useEffect(() => {
         console.log(cards);
-    })
+    });
 
     return (
         <Layout>
@@ -32,7 +31,7 @@ const CreatePost = ({cards,setProducts}) => {
                 <div className="grid grid-cols-2 gap-4">
                     <div className="items-start gap-4 flex flex-col">
                         <div className="w-full">
-                            <span>Enter your Product Name</span>
+                            <span>Enter Product Name</span>
                             <input
                                 onChange={handleInputs}
                                 ref={nameRef}
@@ -43,7 +42,7 @@ const CreatePost = ({cards,setProducts}) => {
                             />
                         </div>
                         <div className="w-full">
-                            <span>Enter your Company Name</span>
+                            <span>Enter Company Name</span>
                             <input
                                 onChange={handleInputs}
                                 type="text"
@@ -53,7 +52,7 @@ const CreatePost = ({cards,setProducts}) => {
                             />
                         </div>
                         <div className="w-full">
-                            <span>Enter your Description</span>
+                            <span>Enter Description</span>
                             <textarea
                                 onChange={handleInputs}
                                 type=" text"
@@ -64,9 +63,9 @@ const CreatePost = ({cards,setProducts}) => {
                         </div>
                         <div className="w-full grid grid-cols-2 gap-3">
                             <div className="">
-                                <span>Enter your Price</span>
+                                <span>Enter Price</span>
                                 <input
-                                onChange={handleInputs}
+                                    onChange={handleInputs}
                                     type="text"
                                     id="price"
                                     placeholder="Price"
@@ -74,9 +73,9 @@ const CreatePost = ({cards,setProducts}) => {
                                 />
                             </div>
                             <div className="">
-                                <span>Enter your Quantity</span>
+                                <span>Enter Quantity</span>
                                 <input
-                                onChange={handleInputs}
+                                    onChange={handleInputs}
                                     type=" text"
                                     id="quantityId"
                                     placeholder="Quantity"
@@ -88,14 +87,19 @@ const CreatePost = ({cards,setProducts}) => {
                     <div>
                         <img src="" alt="image" />
                         <div>
-                            <span>{newProduct.product}</span><br />
-                            <span>{newProduct.company}</span><br />
-                            <span>{newProduct.description}</span><br />
+                            <span>{newProduct.product}</span>
+                            <br />
+                            <span>{newProduct.company}</span>
+                            <br />
+                            <span>{newProduct.description}</span>
+                            <br />
                             <span>${newProduct.price}</span>
                         </div>
                     </div>
                 </div>
-                <button onClick={createProduct} className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-24">
+                <button
+                    onClick={createProduct}
+                    className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-24">
                     Create{' '}
                 </button>
             </form>

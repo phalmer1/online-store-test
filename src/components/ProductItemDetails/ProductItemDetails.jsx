@@ -8,12 +8,10 @@ const ProductItemDetails = ({ card, setCartList }) => {
     const setCartItem = () => {
         setCartList((prevCartList) => {
             const existingItem = prevCartList.find((item) => item.id === card.id);
-    
+            console.log('existingItem', existingItem);
             if (existingItem) {
                 return prevCartList.map((item) =>
-                    item.id === card.id
-                        ? { ...item, count: item.count + count }
-                        : item
+                    item.id === card.id ? { ...item, count: item.count + count } : item,
                 );
             } else {
                 return [...prevCartList, { ...card, count }];
@@ -21,7 +19,7 @@ const ProductItemDetails = ({ card, setCartList }) => {
         });
     };
 
-    console.log(card)
+    console.log(card);
 
     return (
         <Layout>
@@ -45,10 +43,11 @@ const ProductItemDetails = ({ card, setCartList }) => {
                         onChange={(e) => setCount(Number(e.target.value))}
                         name="count"
                         id="countSelect"
-                        className="w-28 h-7 text-sm rounded-sm outline-none"
-                    >
-                        {[1,2,3,4,5,6,7,8].map((value,index) => (
-                            <option key={'option' + index} value={value}>{value}</option>
+                        className="w-28 h-7 text-sm rounded-sm outline-none">
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((value, index) => (
+                            <option key={'option' + index} value={value}>
+                                {value}
+                            </option>
                         ))}
                     </select>
                 </div>

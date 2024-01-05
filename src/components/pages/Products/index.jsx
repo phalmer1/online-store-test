@@ -1,63 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../Layout/Layout';
-import ProductItem from '../../ProductItem/ProductItem';
-import { Link } from 'react-router-dom';
 import { sortInfo } from '../../../data';
 import SortAndSearch from '../../SortAndSearch/SortAndSearch';
 import axios from 'axios';
+import ProductList from '../../ProductList/ProductList';
 
-const Products = ({ cards, setBrand, locateId, chunkCards }) => {
-
-    const [products, setProducts] = useState([]);
-    const [brands, setBrands] = useState('');
+const Products = ({ products }) => {
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        axios.get('https://dummyjson.com/products').then((response) => {
-            const data = response.data;
-            setProducts(data.products);
-        });
-    },[]);
+        axios
+            .get('https://dummyjson.com/products/categories')
+            .then((response) => {
+                setCategories(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
-    products.map((product) => {
-        if(brands.includes(product.brand) === false) {
-            setBrands((prevBrands) => [...prevBrands, product.brand]);
+    const [category, setCategory] = useState('');
+    const [sortedCards, setSortedCards] = useState(products && products);
+
+    useEffect(() => {
+        let filteredCards = products && products;
+        if (category && category !== 'all') {
+            filteredCards = products.filter((card) => card.category === category);
         }
-    })
-    console.log(brands)
+        setSortedCards(filteredCards);
+    }, [category, products]);
+
+    console.log('category', categories);
+    console.log('sorted', sortedCards);
 
     return (
         <Layout>
-            <SortAndSearch
-                setBrand={setBrand}
-                categories={sortInfo.categories}
-                brands={sortInfo.brands}
-            />
-            <div className="text-lg p-3 mb-6 border-b-2 border-slate-400">
-                {cards.length} products
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-                {cards.map((card, index) => (
-                    <ProductItem key={index} card={card} id={index + 1} />
-                ))}
-            </div>
-            <div className="flex justify-center mt-4 mb-10 text-xl gap-2 p-3 bg-slate-600">
-                {chunkCards &&
-                    chunkCards.map((el, index) => (
-                        <Link
-                            className={
-                                index === locateId
-                                    ? 'bg-slate-400 px-1 rounded-md pointer-events-none'
-                                    : 'bg-slate-500 px-1 rounded-md pointer-events-auto'
-                            }
-                            onClick={() => window.scrollTo(0, 0)}
-                            key={index}
-                            id={`number${index}`}
-                            to={`/products/${index !== 0 ? index + 1 : ''}`}
-                        >
-                            {index + 1}
-                        </Link>
-                    ))}
-            </div>
+            <SortAndSearch setCategory={setCategory} categories={categories} />
+            <ProductList cards={sortedCards} />
         </Layout>
     );
 };
